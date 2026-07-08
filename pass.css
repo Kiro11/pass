@@ -59,6 +59,62 @@ body::before {
 }
 
 /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+  text-align: center;
+padding: 3.5rem 1rem 2rem;
+  }
+.logo-pill {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+background: rgba(124,92,252,0.12);
+border: 1px solid rgaba(124,92,252,0.3);
 
+ border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent2);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  animation: fadeDown 0.6s ease both;
+}
+.logo-dot {
+width: 8px; height: 8px
+background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;  
+}
+h1 {
+  font-size: clamp(1.75rem, 6vw, 3rem);
+font-weight: 700;
+letter-spacing: -0.03em;
+color: var(--text);
+  line-height: 1.1;
+animation: ;fadeDown 0.6s 0.1s ease both;
+}
+h1 span { color:var(--accent2); }
+.subtitle {
+ margin-top: 0.75rem;
+  font-size: 15px;
+  color: var(--text2)
+  animation: fadeDown 0.6s 0.2s ease both;
+}
+
+
+
+
+
+/* ── MAIN ── */
+main {
+position: relative;
+z-index: 10;
+max-width: 620px;
+margin: 0 auto;
+padding: 0 1rem 4rem;
+}
 
 

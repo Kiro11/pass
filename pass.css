@@ -126,3 +126,56 @@ margin-bottom: 1rem;
 animation: fadeDown 0.6s 0.3s ease both;
 }
 
+
+/* ── PASSWORD DISPLAY ── */
+pwd-wrapper {
+    position: relative;
+    margin-bottom: 1.3rem;
+}
+.pwd-box {
+ width: 100%;
+background:var(--bg);
+border: 1px solid var(--border2);
+border-radius: var(--radius);
+padding: 14px 130px 14px 16px;
+font-family: var(--mono);
+font-size: 17px;
+font-weight: 500;
+color: var(--accent2);
+letter-spacing: 1.5px;
+min-height: 52px;
+word-break: break-all;
+line-height: 1.5;
+cursor: default;
+user-select: all;
+}
+.pwd-box.hidden-pwd {
+letter-spacing: 3px;
+color:var(--text)
+.pwd-actions {
+position: absolute;
+right: 8px;
+top: 50%;
+transform: translateY(-49%);
+display: flex;
+gap: 4px;
+}
+}
+..icon-btn {
+  width: 36px; height: 36px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text2);
+  font-size: 17px;
+  transition: background 0.15s, color 0.15s, transform 0.1s, border-color 0.15s;
+  -webkit-appearance: none;
+}
+..icon-btn:hover {
+background: var(--bg2);
+color: var(--text);
+border-color: var(--border2);
+..icon-btn:active {transform: scale(0.93);}
+}

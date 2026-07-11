@@ -106,5 +106,60 @@ eyeSvg.innerHTML =isHidden
   void pwdBox.offsetWidth;       // reflow trigger
   pwdBox.classList.add('pop');
 }
+// ── RENDER: STRENGTH METER ────────────────────────────────
+function calcEntropy(len, charsetSize) {
+  return charsetSize > 0 ? Math.round
+  (len * Math.log2(charsetSize)) : 0;
+}
 
+function renderStrength(pwd, charsetSize) {
+ let score = 0;
+  if (pwd.length >= 8)              score++;
+  if (pwd.length >= 14)             score++;
+  if (pwd.length >= 20)             score++;
+  if (/[A-Z]/.test(pwd))           score++;
+  if (/[a-z]/.test(pwd))           score++;
+  if (/[0-9]/.test(pwd))           score++;
+  if (/[^A-Za-z0-9]/.test(pwd))   score++;
+
+  cconst MAX     = 7;
+  const pct     = Math.min(100, Math.round((score / MAX) * 100));
+  const colors  = ['#f87171','#f87171','#fbbf24','#fbbf24','#34d399','#34d399','#34d399','#34d399'];
+  const labels  = ['Very weak','Weak','Fair','Fair','Good','Strong','Very strong','Excellent'];
+ strengthFill.style.width      = pct + '%';
+  strengthFill.style.background = colors[score] ?? colors[MAX];
+  strengthBadge.textContent     = labels[score] ?? labels[MAX];
+  strengthBadge.style.color     = colors[score] ?? colors[MAX];
+  entropyLabel.textContent      =
+   calcEntropy(pwd.length, charsetSize)
+    + ' bits entropy';
+}
+// ── HISTORY ───────────────────────────────────────────────
+function pushHistory(pwd) {
+history.unishift(pwd);
+if (history.length > MAX_HISTORY) history.pop();
+renderHistory();
+}
+function renderHistory() {
+  historyList.innerHTML = '';
+
+  if (!history.length) {
+    historyList.appendChild(emptyMsg);
+    return;
+  }
+   history.forEach((pwd, i) => {
+    const item = document.createElement('div');
+    item.className = 'hist-item';
+    item.innerHTML = `
+      <span class="hist-pwd">${escHtml(pwd)}</span>
+      <svg class="hist-copy" width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="9" y="9" width="13" height="13" rx="2"/>
+        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+      </svg>
+    `;
+    item.addEventListener('click', () => copyToClipboard(history[i]));
+    historyList.appendChild(item);
+  });
+}
 

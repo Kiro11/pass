@@ -57,7 +57,7 @@ return pool;
 function generatePassword() {
 const len     = parseInt(lenSlider.value);
 const noRepeat  = chk.norepeat.checked;
-const charest = buildCharset() ;
+const charset = buildCharset() ;
 
 
   if (!charset) {
@@ -69,7 +69,7 @@ showError(`Need at least ${len} unique chars
  — shorten length or disable "No repeating"` );
 return;
 }
-const unique =[...new Set(charest)];
+const unique =[...new Set(charset)];
 const pool = noRepeat ? [...unique] : unique;
 let pwd ='';
 for (let i = 0; i < len; i++) {
@@ -94,9 +94,8 @@ pwdBox.classList.remove('hidden-pwd');
 function renderPassword() {
 pwdBox.classList.toggle('hidden-pwd', isHidden);
 pwdBox.textContent = isHidden ? '•'.repeat(currentPwd.length) : currentPwd;
-
+}
  // swap eye icon
 
 
 
-}

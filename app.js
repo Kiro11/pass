@@ -40,12 +40,63 @@ const chk = {
   norepeat: document.getElementById('chkNoRepeat'),
 };
 // ── CORE: BUILD CHARSET ───────────────────────────────────
- function buildCharest() {
+ function buildCharset(){
+    let pool = '';
+    if (chk.upper.checked) pool += CHAR_SETS.upper;
+    if (chk.lower.checked) pool += CHAR_SETS.lower;
+    if (chk.nums.checked) pool += CHAR_SETS.nums;
+    if (chk.symbols.checked) pool += CHAR_SETS.symbols;
 
+    if (chk.exclude.checked) {
+pool = [...pool].filter(c => !SIMILAR_CHARS.has(c)).join('');
 
-
-
-
-
-    
+    }
+return pool;
  }
+// ── CORE: GENERATE PASSWORD ──────────────────────────────
+function generatePassword() {
+const len     = parseInt(lenSlider.value);
+const noRepeat  = chk.norepeat.checked;
+const charest = buildCharset() ;
+
+
+  if (!charset) {
+ showError('select at least one character type');
+return;
+}
+if (noRepeat && charset.length < len) {
+showError(`Need at least ${len} unique chars
+ — shorten length or disable "No repeating"` );
+return;
+}
+const unique =[...new Set(charest)];
+const pool = noRepeat ? [...unique] : unique;
+let pwd ='';
+for (let i = 0; i < len; i++) {
+    const idx = Math.floor(Math.random() * pool.length);
+    pwd += pool[idx];
+    if (noRepeat) pool.splice(idx, 1);
+  }
+  
+
+currentPwd = pwd;
+isHidden = true;
+
+renderPassword();
+renderStrength(pwd, unique.length);
+pushHistory(pwd);
+}
+function showError(msg) {
+pwdBox.textContent = msg;
+pwdBox.classList.remove('hidden-pwd');
+}
+// ── RENDER: PASSWORD BOX ──────────────────────────────────
+function renderPassword() {
+pwdBox.classList.toggle('hidden-pwd', isHidden);
+pwdBox.textContent = isHidden ? '•'.repeat(currentPwd.length) : currentPwd;
+
+ // swap eye icon
+
+
+
+}

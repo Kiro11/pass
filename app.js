@@ -1,3 +1,4 @@
+console.log("JavaScript Loaded");
 // ── CONFIG ──────────────────────────────────────────────
 const SIMILAR_CHARS  = new Set('O0lI1');
 const CHAR_SETS = {
@@ -122,7 +123,7 @@ function renderStrength(pwd, charsetSize) {
   if (/[0-9]/.test(pwd))           score++;
   if (/[^A-Za-z0-9]/.test(pwd))   score++;
 
-  cconst MAX     = 7;
+  const MAX     = 7;
   const pct     = Math.min(100, Math.round((score / MAX) * 100));
   const colors  = ['#f87171','#f87171','#fbbf24','#fbbf24','#34d399','#34d399','#34d399','#34d399'];
   const labels  = ['Very weak','Weak','Fair','Fair','Good','Strong','Very strong','Excellent'];
@@ -136,7 +137,7 @@ function renderStrength(pwd, charsetSize) {
 }
 // ── HISTORY ───────────────────────────────────────────────
 function pushHistory(pwd) {
-history.unishift(pwd);
+history.unshift(pwd);
 if (history.length > MAX_HISTORY) history.pop();
 renderHistory();
 }
@@ -184,4 +185,45 @@ if (navigator.clipboard) {
     fallback();
   }
 }
+// ── TOAST ─────────────────────────────────────────────────
+let toastTimer;
+function showToast() {
+toast.classList.add('show');
+clearTimeout(toastTimer);
+toastTimer = setTimeout(() => toast.classList.remove('show'), TOAST_DURATION);
+}
+// ── HELPERS ───────────────────────────────────────────────
+function escHtml(s) {
+ return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+// ── TOGGLE ACTIVE CLASS ───────────────────────────────────
+togglesGrid.addEventListener('change', (e) => {
+  const label = e.target.closest('label');
+  if (label) label.classList.toggle('active', e.target.checked);
+});
 
+// ── EVENT LISTENERS ───────────────────────────────────────
+lenSlider.addEventListener('input', () => {
+  lenBadge.textContent = lenSlider.value;
+});
+
+regenBtn.addEventListener('click', generatePassword);
+regenIconBtn.addEventListener('click', generatePassword);
+
+copyBtn.addEventListener('click', () => copyToClipboard(currentPwd));
+
+eyeBtn.addEventListener('click', () => {
+  if (!currentPwd) return;
+  isHidden = !isHidden;
+  renderPassword();
+});
+clearBtn.addEventListener('click', () => {
+  history = [];
+  renderHistory();
+});
+
+// ── INIT ──────────────────────────────────────────────────
+generatePassword(); 
